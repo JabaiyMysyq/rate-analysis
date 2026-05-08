@@ -159,10 +159,10 @@
         Проект разработан: Алымжан Сафина, Байсеркеева Маржан &copy; 2026
     </footer>
 
-    <script>
+   <script>
         // ГЛАВНАЯ ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ
         function showPage(pageId) {
-            console.log("Переключаюсь на:", pageId); // Для проверки в консоли браузера
+            console.log("Переключаюсь на:", pageId); 
             
             // 1. Скрываем все страницы
             const pages = document.querySelectorAll('.page');
@@ -174,14 +174,50 @@
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
+            } else {
+                console.error("Страница с id '" + pageId + "' не найдена!");
             }
 
-            // 3. Скролл вверх при переключении
+            // 3. Скролл вверх
             window.scrollTo(0, 0);
         }
 
+        // ФУНКЦИЯ ГЕНЕРАЦИИ ОТВЕТА ИИ
         function generateAI() {
             const responses = [
                 "Проверка данных завершена. Аномалий не обнаружено.",
                 "Рекомендация: внедрить программу лояльности для сегмента Retail.",
-                "ИИ
+                "ИИ прогнозирует стабильный рост при сохранении текущих метрик."
+            ];
+            const div = document.getElementById('ai-response');
+            if (!div) return;
+            
+            div.innerText = "Анализирую...";
+            setTimeout(() => {
+                div.innerText = responses[Math.floor(Math.random() * responses.length)];
+            }, 1000);
+        }
+
+        // ЛОГИКА ЧАТ-БОТА
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const chatContent = document.getElementById('chat-content');
+            if (!input || !chatContent || input.value.trim() === "") return;
+
+            chatContent.innerHTML += `<div style="text-align: right; margin-top: 5px;"><strong>Вы:</strong> ${input.value}</div>`;
+            
+            const msg = input.value.toLowerCase();
+            input.value = "";
+
+            setTimeout(() => {
+                let reply = "Интересно! Сафина и Маржан обязательно изучат этот вопрос.";
+                if (msg.includes("привет")) reply = "Привет! Чем могу помочь?";
+                if (msg.includes("отток") || msg.includes("churn")) reply = "Наш проект снижает отток на 15% с помощью ИИ!";
+                
+                chatContent.innerHTML += `<div style="margin-top: 5px;"><strong>Бот:</strong> ${reply}</div>`;
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
