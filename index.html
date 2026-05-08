@@ -35,8 +35,27 @@
         .hero { text-align: center; }
         .hero h1 { font-size: clamp(2rem, 8vw, 3.5rem); margin-bottom: 1.5rem; background: linear-gradient(90deg, #fff, var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .video-container { width: 100%; max-width: 850px; margin: 2rem auto; border-radius: 20px; overflow: hidden; border: 1px solid var(--accent-color); box-shadow: 0 0 30px rgba(56, 189, 248, 0.15); }
-        video { width: 100%; display: block; background: #000; }
+        /* Стили для YouTube адаптивности */
+        .video-container { 
+            width: 100%; 
+            max-width: 850px; 
+            margin: 2rem auto; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 1px solid var(--accent-color); 
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
         .card { background: var(--card-bg); padding: 1.5rem; border-radius: 15px; border: 1px solid #334155; }
@@ -80,10 +99,12 @@
             <h1>Анализ удержания клиентов</h1>
             <p>Проект по прогнозированию оттока с использованием искусственного интеллекта.</p>
             <div class="video-container">
-                <video controls poster="graphs.png">
-                    <source src="https://www.youtube.com/watch?v=ccH1exHjtlQ&list=PL76rcdJEAtFqKU8s8_-pAS4t677HslygN" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
-                </video>
+                <iframe 
+                    src="https://www.youtube.com/embed/ccH1exHjtlQ" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
             </div>
         </section>
     </div>
@@ -121,103 +142,4 @@
     <div id="lab" class="page">
         <h2>AI Лаборатория</h2>
         <div class="ai-tool">
-            <h3>Демонстрация ИИ-агента</h3>
-            <p style="margin-bottom: 1.5rem; color: var(--text-dim);">Нажмите кнопку, чтобы запустить симуляцию анализа.</p>
-            <div id="ai-response" style="margin-bottom: 1.5rem; color: var(--accent-color); font-weight: bold; min-height: 24px;">...система готова...</div>
-            <button class="btn" onclick="generateAI()">ЗАПУСТИТЬ AI</button>
-        </div>
-    </div>
-
-    <div id="team" class="page">
-        <h2>Наша команда</h2>
-        <div class="grid">
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">👤</div>
-                <h3>Алымжан Сафина</h3>
-                <p style="color: var(--accent-color);">Lead Developer & Data Analyst</p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">👤</div>
-                <h3>Байсеркеева Маржан</h3>
-                <p style="color: var(--accent-color);">AI Researcher & Designer</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="chat-widget">
-        <div class="chat-header">AI Ассистент (Online)</div>
-        <div id="chat-content" class="chat-body">
-            <div><strong>Бот:</strong> Привет! Я готов ответить на вопросы по проекту.</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Спросите что-нибудь...">
-            <button onclick="sendMessage()" style="background: none; border: none; color: var(--accent-color); padding: 10px; cursor: pointer; font-weight: bold;">➡</button>
-        </div>
-    </div>
-
-    <footer>
-        Проект разработан: Алымжан Сафина, Байсеркеева Маржан &copy; 2026
-    </footer>
-
-   <script>
-        // ГЛАВНАЯ ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ
-        function showPage(pageId) {
-            console.log("Переключаюсь на:", pageId); 
-            
-            // 1. Скрываем все страницы
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // 2. Показываем нужную страницу
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            } else {
-                console.error("Страница с id '" + pageId + "' не найдена!");
-            }
-
-            // 3. Скролл вверх
-            window.scrollTo(0, 0);
-        }
-
-        // ФУНКЦИЯ ГЕНЕРАЦИИ ОТВЕТА ИИ
-        function generateAI() {
-            const responses = [
-                "Проверка данных завершена. Аномалий не обнаружено.",
-                "Рекомендация: внедрить программу лояльности для сегмента Retail.",
-                "ИИ прогнозирует стабильный рост при сохранении текущих метрик."
-            ];
-            const div = document.getElementById('ai-response');
-            if (!div) return;
-            
-            div.innerText = "Анализирую...";
-            setTimeout(() => {
-                div.innerText = responses[Math.floor(Math.random() * responses.length)];
-            }, 1000);
-        }
-
-        // ЛОГИКА ЧАТ-БОТА
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const chatContent = document.getElementById('chat-content');
-            if (!input || !chatContent || input.value.trim() === "") return;
-
-            chatContent.innerHTML += `<div style="text-align: right; margin-top: 5px;"><strong>Вы:</strong> ${input.value}</div>`;
-            
-            const msg = input.value.toLowerCase();
-            input.value = "";
-
-            setTimeout(() => {
-                let reply = "Интересно! Сафина и Маржан обязательно изучат этот вопрос.";
-                if (msg.includes("привет")) reply = "Привет! Чем могу помочь?";
-                if (msg.includes("отток") || msg.includes("churn")) reply = "Наш проект снижает отток на 15% с помощью ИИ!";
-                
-                chatContent.innerHTML += `<div style="margin-top: 5px;"><strong>Бот:</strong> ${reply}</div>`;
-                chatContent.scrollTop = chatContent.scrollHeight;
-            }, 600);
-        }
-    </script>
-</body>
-</html>
+            <h3>Демон
