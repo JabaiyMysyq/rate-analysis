@@ -31,36 +31,34 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 1. Hero Section */
+        /* Hero Section */
         .hero { text-align: center; padding: 4rem 0; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(90deg, #fff, var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.2rem; color: var(--text-dim); max-width: 700px; margin: 0 auto 2rem; }
 
-        /* 6. Видео / Аватар */
-        .video-placeholder { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-color); margin: 2rem 0; position: relative; overflow: hidden; }
-        .video-placeholder span { color: var(--accent-color); }
+        /* Видео контейнер */
+        .video-container { width: 100%; max-width: 800px; margin: 2rem auto; border-radius: 20px; overflow: hidden; border: 1px solid var(--accent-color); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        video { width: 100%; display: block; }
 
-        /* 2. AI Галерея */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .card { background: var(--card-bg); padding: 1rem; border-radius: 15px; border: 1px solid #334155; }
-        .ai-img { width: 100%; height: 200px; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-style: italic; color: #64748b; }
+        /* Сетка для графиков */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .card { background: var(--card-bg); padding: 1rem; border-radius: 15px; border: 1px solid #334155; transition: 0.3s; }
+        .card:hover { border-color: var(--accent-color); }
+        .ai-img { width: 100%; height: auto; min-height: 200px; object-fit: cover; border-radius: 10px; display: block; }
 
-        /* 3. Аналитика */
+        /* Аналитика */
         .analysis-text { background: rgba(56, 189, 248, 0.05); padding: 2rem; border-radius: 15px; border-left: 4px solid var(--accent-color); margin-bottom: 2rem; }
 
-        /* 5. Динамическая таблица */
+        /* Таблица */
         table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
         th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #334155; }
         th { color: var(--accent-color); }
 
-        /* 4. AI-Агент / Генерация */
+        /* AI Лаборатория */
         .ai-tool { background: #1e293b; padding: 2rem; border-radius: 20px; border: 1px dashed var(--accent-color); text-align: center; }
         .btn { background: var(--accent-color); color: #000; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; }
 
-        /* 7. Музыкальный плеер */
-        .player { background: #0f172a; padding: 1.5rem; border-radius: 12px; margin: 2rem 0; display: flex; align-items: center; gap: 1rem; border: 1px solid #334155; }
-
-        /* 8. Чат-бот */
+        /* Чат-бот */
         #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 300px; background: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; }
         .chat-header { background: var(--accent-color); color: #000; padding: 10px; font-weight: bold; font-size: 0.8rem; }
         .chat-body { height: 200px; padding: 10px; overflow-y: auto; font-size: 0.8rem; }
@@ -87,9 +85,13 @@
     <div id="home" class="page active">
         <div class="hero">
             <h1>Анализ удержания клиентов</h1>
-            <p>Используем мощь искусственного интеллекта для прогнозирования оттока и разработки стратегий лояльности.</p>
-            <div class="video-placeholder">
-                <span>[Место для AI-анимации или видео-аватара проекта]</span>
+            <p>Проект по прогнозированию оттока с использованием современных алгоритмов машинного обучения.</p>
+            
+            <div class="video-container">
+                <video controls poster="graphs.png">
+                    <source src="INTRODUCTION%20OF%20RATE%20ANALYSIS.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает тег видео.
+                </video>
             </div>
         </div>
     </div>
@@ -97,16 +99,21 @@
     <div id="analysis" class="page">
         <h2>Аналитический обзор</h2>
         <div class="analysis-text">
-            <p><strong>Анализ оттока (Churn Rate)</strong> — это ключевой показатель здоровья бизнеса. Мы исследовали данные за 2024 год, выявив, что внедрение предиктивных ИИ-моделей снижает потерю клиентов на 15-20%.</p>
+            <p><strong>Визуализация данных:</strong> Ниже представлены результаты нашего исследования. Мы проанализировали ключевые факторы, влияющие на решение клиента прекратить использование сервиса.</p>
         </div>
         
-        <h3>Визуализация данных (AI Generated)</h3>
         <div class="grid">
-            <div class="card"><div class="ai-img">График трендов ИИ</div><p style="margin-top: 10px; font-size: 0.8rem;">Динамика оттока по сегментам</p></div>
-            <div class="card"><div class="ai-img">Кластеризация ИИ</div><p style="margin-top: 10px; font-size: 0.8rem;">Группы риска клиентов</p></div>
+            <div class="card">
+                <img src="graphs.png" alt="Графики анализа" class="ai-img">
+                <p style="margin-top: 10px; font-size: 0.9rem; text-align: center;">Анализ трендов и динамика оттока</p>
+            </div>
+            <div class="card">
+                <img src="risks.png" alt="Карта рисков" class="ai-img">
+                <p style="margin-top: 10px; font-size: 0.9rem; text-align: center;">Ключевые зоны риска (Matrix)</p>
+            </div>
         </div>
 
-        <h3>Статистические данные</h3>
+        <h3>Статистические показатели</h3>
         <table>
             <thead>
                 <tr>
@@ -124,99 +131,72 @@
 
     <div id="lab" class="page">
         <h2>Интерактивные ИИ-компоненты</h2>
-        
         <div class="ai-tool">
             <h3>AI-Агент (Demo)</h3>
-            <p style="color: var(--text-dim); margin-bottom: 1rem;">Нажмите, чтобы ИИ сгенерировал мотивационный текст для уходящего клиента</p>
-            <div id="ai-response" style="margin-bottom: 1rem; color: var(--accent-color); font-style: italic;">...ожидание запроса...</div>
-            <button class="btn" onclick="generateAI()">Запустить AI-агента</button>
-        </div>
-
-        <div class="player">
-            <div style="background: var(--accent-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000;">▶</div>
-            <div style="flex: 1;">
-                <div style="font-size: 0.8rem;">AI Background Music</div>
-                <div style="width: 100%; height: 4px; background: #334155; margin-top: 5px; border-radius: 2px; position: relative;">
-                    <div style="width: 40%; height: 100%; background: var(--accent-color);"></div>
-                </div>
-            </div>
-            <div style="font-size: 0.7rem;">01:30 / 03:00</div>
+            <div id="ai-response" style="margin: 1rem 0; color: var(--accent-color); font-style: italic;">Система готова к работе...</div>
+            <button class="btn" onclick="generateAI()">Запустить анализ</button>
         </div>
     </div>
 
     <div id="team" class="page">
         <h2>О создателях проекта</h2>
         <div class="grid">
-            <div class="card">
-                <div class="ai-img" style="height: 150px;">👤</div>
-                <h3 style="margin-top: 1rem;">Алымжан Сафина</h3>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">👤</div>
+                <h3>Алымжан Сафина</h3>
                 <p style="color: var(--accent-color);">Lead Developer & Data Analyst</p>
             </div>
-            <div class="card">
-                <div class="ai-img" style="height: 150px;">👤</div>
-                <h3 style="margin-top: 1rem;">Байсеркеева Маржан</h3>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">👤</div>
+                <h3>Байсеркеева Маржан</h3>
                 <p style="color: var(--accent-color);">AI Researcher & Designer</p>
             </div>
         </div>
     </div>
 
     <div id="chat-widget">
-        <div class="chat-header">AI Ассистент (Online)</div>
+        <div class="chat-header">AI Ассистент</div>
         <div class="chat-body" id="chat-content">
-            <div style="margin-bottom: 10px;"><strong>Бот:</strong> Здравствуйте! Чем я могу помочь в анализе Churn Rate?</div>
+            <div style="margin-bottom: 10px;"><strong>Бот:</strong> Здравствуйте! Как я могу помочь вам с анализом Churn Rate?</div>
         </div>
         <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Введите сообщение...">
+            <input type="text" id="user-input" placeholder="Введите вопрос...">
             <button onclick="sendMessage()" style="background: none; border: none; color: var(--accent-color); padding: 10px; cursor: pointer;">➡</button>
         </div>
     </div>
 
     <footer class="creator-tag">
-        Проект разработан: Алымжан Сафина, Байсеркеева Маржан &copy; 2024
+        Проект разработан: Алымжан Сафина, Байсеркеева Маржан &copy; 2026
     </footer>
 
     <script>
-        // Переключение страниц
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // Эмуляция AI-агента
         function generateAI() {
             const responses = [
-                "Мы ценим ваш опыт и готовы предложить персональные условия!",
-                "Ваша статистика показывает огромный потенциал роста.",
-                "ИИ рекомендует: добавьте бонус за лояльность в следующем месяце."
+                "Анализ завершен: Требуется внимание к сегменту Retail.",
+                "ИИ рекомендует: Увеличить персонализацию предложений.",
+                "Прогноз: Ожидается снижение оттока на 5% при текущей стратегии."
             ];
             const div = document.getElementById('ai-response');
-            div.innerText = "Генерация...";
+            div.innerText = "Обработка данных...";
             setTimeout(() => {
                 div.innerText = responses[Math.floor(Math.random() * responses.length)];
             }, 1000);
         }
 
-        // Логика чат-бота
         function sendMessage() {
             const input = document.getElementById('user-input');
             const chatContent = document.getElementById('chat-content');
             if (input.value.trim() === "") return;
 
             chatContent.innerHTML += `<div style="margin-bottom: 10px; text-align: right;"><strong>Вы:</strong> ${input.value}</div>`;
-            
             const userMsg = input.value.toLowerCase();
             input.value = "";
 
             setTimeout(() => {
-                let botMsg = "Интересный вопрос. Я передам это нашим аналитикам Сафине и Маржан.";
-                if (userMsg.includes("привет")) botMsg = "Приветствую! Готов помочь с данными.";
-                if (userMsg.includes("churn")) botMsg = "Churn Rate — это процент клиентов, переставших пользоваться услугами за период.";
-                
-                chatContent.innerHTML += `<div style="margin-bottom: 10px;"><strong>Бот:</strong> ${botMsg}</div>`;
-                chatContent.scrollTop = chatContent.scrollHeight;
-            }, 800);
-        }
-    </script>
-</body>
-</html>
+                let botMsg = "Я
