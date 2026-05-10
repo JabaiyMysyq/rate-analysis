@@ -148,7 +148,7 @@
     </div>
 
     <script>
-        // Функция переключения вынесена в самый верх
+        // Функция переключения страниц
         function showPage(pageId) {
             console.log("Клик по странице:", pageId);
             const pages = document.querySelectorAll('.page');
@@ -161,18 +161,106 @@
             window.scrollTo(0, 0);
         }
 
+        // Генерация ответа ИИ в лаборатории
         function generateAI() {
-            const res = ["Данные в норме.", "Рекомендация: Retail-скидки.", "Прогноз: рост 5%."];
+            const res = [
+                "Анализ завершен. Аномалий не выявлено.", 
+                "Рекомендация: запустить Retail-скидки для сегмента высокого риска.", 
+                "Прогноз: удержание вырастет на 5% при смене стратегии."
+            ];
             document.getElementById('ai-response').innerText = res[Math.floor(Math.random()*res.length)];
         }
+
+        // --- ЛОГИКА ЧАТ-БОТА ---
+
+        // Обработка нажатия Enter в поле ввода
+        document.getElementById("user-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
 
         function sendMessage() {
             const input = document.getElementById('user-input');
             const chat = document.getElementById('chat-content');
-            if (input.value) {
-                chat.innerHTML += `<div><strong>Вы:</strong> ${input.value}</div>`;
+            const userText = input.value.trim();
+
+            if (userText) {
+                // 1. Показываем сообщение пользователя
+                chat.innerHTML += `<div style="margin-bottom: 8px;"><strong>Вы:</strong> ${userText}</div>`;
                 input.value = "";
-                setTimeout(() => { chat.innerHTML += `<div><strong>Бот:</strong> Принято!</div>`; }, 500);
+                scrollToBottom();
+
+                // 2. Моментально получаем и показываем ответ бота
+                const botResponse = getSmartResponse(userText.toLowerCase());
+                chat.innerHTML += `<div style="margin-bottom: 8px;"><strong>Бот:</strong> ${botResponse}</div>`;
+                scrollToBottom();
+            }
+        }
+
+        // Функция автоскролла чата вниз
+        function scrollToBottom() {
+            const chat = document.getElementById('chat-content');
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // РАСШИРЕННАЯ БАЗА ЗНАНИЙ
+        function getSmartResponse(text) {
+            // 1. Приветствия и вежливость
+            if (text.includes("привет") || text.includes("здравствуй") || text.includes("добрый день") || text.includes("хай")) {
+                return "Привет! Я умный ассистент проекта ChurnAI. Готов обсудить метрики и удержание клиентов. Чем могу помочь?";
+            } else if (text.includes("пока") || text.includes("до свидания")) {
+                return "До встречи! Возвращайтесь, когда понадобятся новые прогнозы.";
+            } else if (text.includes("кто ты") || text.includes("что ты умеешь") || text.includes("что ты такое")) {
+                return "Я виртуальный помощник ChurnAI. Помогаю ориентироваться на сайте, рассказываю про отток клиентов и нашу команду.";
+            } else if (text.includes("как дела") || text.includes("как ты") || text.includes("как настроение")) {
+                return "Мои серверы работают стабильно, потерь пакетов не наблюдаю! А как ваши дела?";
+            } else if (text.includes("спасибо") || text.includes("благодарю")) {
+                return "Рад помочь! Если появятся еще вопросы — пишите.";
+            } else if (text.includes("шутк") || text.includes("анекдот") || text.includes("рассмеши")) {
+                return "Почему программисты так не любят природу? Там слишком много багов!";
+            }
+
+            // 2. О проекте (Команда, Разделы сайта)
+            else if (text.includes("команд") || text.includes("создател") || text.includes("разработчик") || text.includes("кто сделал")) {
+                return "Наш проект — результат трудов Алымжан Сафиной (Lead Developer) и Байсеркеевой Маржан (AI Researcher). Настоящие профи!";
+            } else if (text.includes("контакт") || text.includes("связаться")) {
+                return "Вы можете найти информацию о создателях в разделе 'О команде'.";
+            } else if (text.includes("анализ") || text.includes("график") || text.includes("аналитик") || text.includes("отчет")) {
+                return "Вся магия данных происходит во вкладке 'Аналитика'. Там есть графики трендов и матрица рисков. Обязательно загляните!";
+            } else if (text.includes("лаборатори") || text.includes("ai tool") || text.includes("демо")) {
+                return "В разделе 'Лаборатория' вы можете запустить демо-версию нашего ИИ и получить тестовый прогноз.";
+            } 
+            
+            // 3. Предметная область: Churn, LTV, Retention, AI
+            else if (text.includes("отток") || text.includes("churn") || text.includes("что такое churn")) {
+                return "Churn Rate (отток) — это процент клиентов, прекративших сотрудничество с компанией за определенный период. Это важнейшая метрика для любого бизнеса.";
+            } else if (text.includes("причин") && (text.includes("отток") || text.includes("churn"))) {
+                return "Частые причины оттока: плохой сервис, высокие цены, агрессивные конкуренты или просто изменение потребностей. Наш ИИ ищет эти скрытые паттерны.";
+            } else if (text.includes("retention") || text.includes("удержани")) {
+                return "Удержание (Retention) — это антоним оттока. Чем выше удержание, тем больше клиентов остаются с вами. Наша главная цель — максимизировать эту метрику!";
+            } else if (text.includes("ltv") || text.includes("life time value")) {
+                return "LTV (Lifetime Value) — пожизненная ценность клиента. Снижая отток (Churn), бизнес автоматически увеличивает LTV. Это прямая дорога к росту прибыли.";
+            } else if (text.includes("cac") || text.includes("стоимость привлечени")) {
+                return "CAC (Customer Acquisition Cost) — стоимость привлечения клиента. Удерживать старых клиентов всегда дешевле, чем привлекать новых, поэтому борьба с оттоком так важна.";
+            } else if (text.includes("машинное обучение") || text.includes("ml") || text.includes("нейросеть") || text.includes("ии") || text.includes("ai")) {
+                return "Мы используем алгоритмы машинного обучения для классификации пользователей и предсказания вероятности их ухода на основе исторических данных поведения.";
+            } else if (text.includes("как снизить") || text.includes("как уменьшить") || text.includes("как бороться")) {
+                return "Снизить отток можно через улучшение качества продукта, персонализированные предложения, проактивную поддержку и, конечно, используя предсказательную аналитику, как в нашем проекте!";
+            } 
+
+            // 4. Заглушки (если бот не понял вопрос)
+            else {
+                const defaultResponses = [
+                    "Хмм, интересный вопрос. Моим алгоритмам нужно чуть больше контекста.",
+                    "Пока не могу ответить точно, но мы постоянно расширяем мою базу знаний.",
+                    "Отличный инсайт! Сохраню это в логи для будущих обновлений.",
+                    "Давайте вернемся к метрикам. Вас интересует 'Аналитика' или 'Лаборатория'?",
+                    "Принято! Кстати, вы уже тестировали наш ИИ в разделе 'Лаборатория'?",
+                    "Не совсем понял, но звучит круто. Спросите меня что-нибудь про отток клиентов, Retention или нашу команду!"
+                ];
+                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
             }
         }
     </script>
