@@ -71,12 +71,6 @@
         .btn { background: var(--accent-color); color: #000; padding: 0.8rem 2rem; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; }
         .btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent-color); }
 
-        #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 300px; background: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; }
-        .chat-header { background: var(--accent-color); color: #000; padding: 10px; font-weight: bold; font-size: 0.8rem; }
-        .chat-body { height: 200px; padding: 10px; overflow-y: auto; font-size: 0.8rem; color: #fff; }
-        .chat-input { display: flex; border-top: 1px solid #334155; }
-        .chat-input input { flex: 1; background: none; border: none; padding: 10px; color: white; outline: none; }
-
         footer { padding: 3rem; text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid #334155; margin-top: 4rem; }
     </style>
 </head>
@@ -136,14 +130,10 @@
             <div class="card" style="text-align: center;"><h3>Алымжан Сафина</h3><p>Lead Developer</p></div>
             <div class="card" style="text-align: center;"><h3>Байсеркеева Маржан</h3><p>AI Researcher</p></div>
         </div>
-    </div>
-
-    <div id="chat-widget">
-        <div class="chat-header">AI Ассистент</div>
-        <div id="chat-content" class="chat-body"><div><strong>Бот:</strong> Привет! Чем помочь?</div></div>
-        <div class="chat-input">
-            <input type="text" id="user-input">
-            <button onclick="sendMessage()">➡</button>
+        
+        <div style="text-align: center; margin-top: 3rem; color: var(--text-dim);">
+            <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">2026</p>
+            <p style="font-size: 0.95rem; font-style: italic;">Discipline: Information and Communication Technology</p>
         </div>
     </div>
 
@@ -170,99 +160,11 @@
             ];
             document.getElementById('ai-response').innerText = res[Math.floor(Math.random()*res.length)];
         }
-
-        // --- ЛОГИКА ЧАТ-БОТА ---
-
-        // Обработка нажатия Enter в поле ввода
-        document.getElementById("user-input").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const chat = document.getElementById('chat-content');
-            const userText = input.value.trim();
-
-            if (userText) {
-                // 1. Показываем сообщение пользователя
-                chat.innerHTML += `<div style="margin-bottom: 8px;"><strong>Вы:</strong> ${userText}</div>`;
-                input.value = "";
-                scrollToBottom();
-
-                // 2. Моментально получаем и показываем ответ бота
-                const botResponse = getSmartResponse(userText.toLowerCase());
-                chat.innerHTML += `<div style="margin-bottom: 8px;"><strong>Бот:</strong> ${botResponse}</div>`;
-                scrollToBottom();
-            }
-        }
-
-        // Функция автоскролла чата вниз
-        function scrollToBottom() {
-            const chat = document.getElementById('chat-content');
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        // РАСШИРЕННАЯ БАЗА ЗНАНИЙ
-        function getSmartResponse(text) {
-            // 1. Приветствия и вежливость
-            if (text.includes("привет") || text.includes("здравствуй") || text.includes("добрый день") || text.includes("хай")) {
-                return "Привет! Я умный ассистент проекта ChurnAI. Готов обсудить метрики и удержание клиентов. Чем могу помочь?";
-            } else if (text.includes("пока") || text.includes("до свидания")) {
-                return "До встречи! Возвращайтесь, когда понадобятся новые прогнозы.";
-            } else if (text.includes("кто ты") || text.includes("что ты умеешь") || text.includes("что ты такое")) {
-                return "Я виртуальный помощник ChurnAI. Помогаю ориентироваться на сайте, рассказываю про отток клиентов и нашу команду.";
-            } else if (text.includes("как дела") || text.includes("как ты") || text.includes("как настроение")) {
-                return "Мои серверы работают стабильно, потерь пакетов не наблюдаю! А как ваши дела?";
-            } else if (text.includes("спасибо") || text.includes("благодарю")) {
-                return "Рад помочь! Если появятся еще вопросы — пишите.";
-            } else if (text.includes("шутк") || text.includes("анекдот") || text.includes("рассмеши")) {
-                return "Почему программисты так не любят природу? Там слишком много багов!";
-            }
-
-            // 2. О проекте (Команда, Разделы сайта)
-            else if (text.includes("команд") || text.includes("создател") || text.includes("разработчик") || text.includes("кто сделал")) {
-                return "Наш проект — результат трудов Алымжан Сафиной (Lead Developer) и Байсеркеевой Маржан (AI Researcher). Настоящие профи!";
-            } else if (text.includes("контакт") || text.includes("связаться")) {
-                return "Вы можете найти информацию о создателях в разделе 'О команде'.";
-            } else if (text.includes("анализ") || text.includes("график") || text.includes("аналитик") || text.includes("отчет")) {
-                return "Вся магия данных происходит во вкладке 'Аналитика'. Там есть графики трендов и матрица рисков. Обязательно загляните!";
-            } else if (text.includes("лаборатори") || text.includes("ai tool") || text.includes("демо")) {
-                return "В разделе 'Лаборатория' вы можете запустить демо-версию нашего ИИ и получить тестовый прогноз.";
-            } 
-            
-            // 3. Предметная область: Churn, LTV, Retention, AI
-            else if (text.includes("отток") || text.includes("churn") || text.includes("что такое churn")) {
-                return "Churn Rate (отток) — это процент клиентов, прекративших сотрудничество с компанией за определенный период. Это важнейшая метрика для любого бизнеса.";
-            } else if (text.includes("причин") && (text.includes("отток") || text.includes("churn"))) {
-                return "Частые причины оттока: плохой сервис, высокие цены, агрессивные конкуренты или просто изменение потребностей. Наш ИИ ищет эти скрытые паттерны.";
-            } else if (text.includes("retention") || text.includes("удержани")) {
-                return "Удержание (Retention) — это антоним оттока. Чем выше удержание, тем больше клиентов остаются с вами. Наша главная цель — максимизировать эту метрику!";
-            } else if (text.includes("ltv") || text.includes("life time value")) {
-                return "LTV (Lifetime Value) — пожизненная ценность клиента. Снижая отток (Churn), бизнес автоматически увеличивает LTV. Это прямая дорога к росту прибыли.";
-            } else if (text.includes("cac") || text.includes("стоимость привлечени")) {
-                return "CAC (Customer Acquisition Cost) — стоимость привлечения клиента. Удерживать старых клиентов всегда дешевле, чем привлекать новых, поэтому борьба с оттоком так важна.";
-            } else if (text.includes("машинное обучение") || text.includes("ml") || text.includes("нейросеть") || text.includes("ии") || text.includes("ai")) {
-                return "Мы используем алгоритмы машинного обучения для классификации пользователей и предсказания вероятности их ухода на основе исторических данных поведения.";
-            } else if (text.includes("как снизить") || text.includes("как уменьшить") || text.includes("как бороться")) {
-                return "Снизить отток можно через улучшение качества продукта, персонализированные предложения, проактивную поддержку и, конечно, используя предсказательную аналитику, как в нашем проекте!";
-            } 
-
-            // 4. Заглушки (если бот не понял вопрос)
-            else {
-                const defaultResponses = [
-                    "Хмм, интересный вопрос. Моим алгоритмам нужно чуть больше контекста.",
-                    "Пока не могу ответить точно, но мы постоянно расширяем мою базу знаний.",
-                    "Отличный инсайт! Сохраню это в логи для будущих обновлений.",
-                    "Давайте вернемся к метрикам. Вас интересует 'Аналитика' или 'Лаборатория'?",
-                    "Принято! Кстати, вы уже тестировали наш ИИ в разделе 'Лаборатория'?",
-                    "Не совсем понял, но звучит круто. Спросите меня что-нибудь про отток клиентов, Retention или нашу команду!"
-                ];
-                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
-            }
-        }
     </script>
+
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="mXQtQhyiGLaL2F9eetpya";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
+
 </body>
 </html>
